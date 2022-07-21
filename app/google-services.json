@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "323623763070",
+    "project_id": "libre-fitness-api-app",
+    "storage_bucket": "libre-fitness-api-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323623763070:android:d07c8160b964211bd36c2f",
+        "android_client_info": {
+          "package_name": "com.example.androidfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323623763070-3pud0ga29gnnr3rs27srao5nrc7uc5ij.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.androidfit",
+            "certificate_hash": "c96bafaed81d2948d2a4aa3a5f4933c8774c9dfa"
+          }
+        },
+        {
+          "client_id": "323623763070-qtb9ooopigi9ls3l14rg0h5pn384i9mv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7CqwYG1aynwf8HoazzLvH5LX4K7a2ATU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323623763070-qtb9ooopigi9ls3l14rg0h5pn384i9mv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
