@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.RecordingClient;
 import com.google.android.gms.fitness.data.Bucket;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
@@ -31,6 +32,7 @@ import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.material.snackbar.Snackbar;
 
+import static com.google.android.gms.fitness.data.HealthFields.FIELD_BLOOD_PRESSURE_DIASTOLIC;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         return FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                .addDataType(DataType.AGGREGATE_HEART_POINTS)
+                .addDataType(DataType.AGGREGATE_DISTANCE_DELTA)
                 .build();
     }
 
@@ -121,11 +123,6 @@ public class MainActivity extends AppCompatActivity {
         Fitness.getRecordingClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE);
     }
-
-    /**
-     * Reads the current daily step total, computed from midnight of the current day on the device's
-     * current timezone.
-     */
     private void readStepCountDelta() {
         if (!hasFitPermission()) {
             requestFitnessPermission();
@@ -142,15 +139,11 @@ public class MainActivity extends AppCompatActivity {
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                             Log.d(TAG, "Total steps: " + total);
                             //display counts on screen
-//                            counter.setText(String.format(Locale.ENGLISH, "%d", total));
+                            counter.setText(String.format(Locale.ENGLISH, "%d", total));
                         })
                 .addOnFailureListener(
                         e -> Log.w(TAG, "There was a problem getting the step count.", e));
     }
-
-    /**
-     * Asynchronous task to read the history data. When the task succeeds, it will print out the data.
-     */
     private void readHistoricStepCount() {
         if (!hasFitPermission()) {
             requestFitnessPermission();
@@ -239,9 +232,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.action_revoke) {
-            revokeFitnessPermissions();
-        }
         if (id == R.id.action_read_data) {
             readStepCountDelta();
             return true;
@@ -252,22 +242,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    private void revokeFitnessPermissions() {
-        if (!hasFitPermission()) {
-            return;
-        }
-
-        // Stop recording the step count
-        Fitness.getRecordingClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
-                .unsubscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE);
-
-        // Revoke Fitness permissions
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder().addExtension(getFitnessSignInOptions()).build();
-        GoogleSignIn.getClient(this, signInOptions).revokeAccess();
-
-        Toast.makeText(this, "Fitness permissions revoked", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
