@@ -28,6 +28,12 @@ import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.HttpClient;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.DefaultHttpClient;
 
@@ -36,6 +42,8 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
+
+;
 
 
 public class MainActivity<authCode> extends AppCompatActivity {
@@ -168,13 +176,13 @@ public class MainActivity<authCode> extends AppCompatActivity {
                 String idToken = account.getIdToken();
                 readStepBackEnd(authCode, idToken);
 
-            } catch (ApiException e) {
+            } catch (ApiException | IOException e) {
                 Log.w(TAG, "Sign-in failed", e);
             }
         }
     }
 
-    private void readStepBackEnd(String authCode, String idToken) {
+    private void readStepBackEnd(String authCode, String idToken) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         String CLIENT_SECRET_FILE = "/Users/hs/AndroidStudioProjects/client_secret_323623763070-sqarr6qf4ju9361she7etj71f9ool81a.apps.googleusercontent.com.json";
         GoogleClientSecrets clientSecrets =
@@ -188,12 +196,13 @@ public class MainActivity<authCode> extends AppCompatActivity {
                         CLIENT_ID,
                         CLIENT_SECRET,
                         authCode,
-                        "REDIRECT_URI")  // Specify the same redirect URI that you use with your web
+                        "")  // Specify the same redirect URI that you use with your web
                         // app. If you don't have a web version of your app, you can
                         // specify an empty string.
                         .execute();
 
         String accessToken = tokenResponse.getAccessToken();
+        GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
 
 
     }
