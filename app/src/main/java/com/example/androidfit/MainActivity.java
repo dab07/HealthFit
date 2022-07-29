@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +17,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.androidfit.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.RecordingClient;
 import com.google.android.gms.fitness.data.Bucket;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
@@ -32,7 +29,6 @@ import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.material.snackbar.Snackbar;
 
-import static com.google.android.gms.fitness.data.HealthFields.FIELD_BLOOD_PRESSURE_DIASTOLIC;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
@@ -139,10 +135,12 @@ public class MainActivity extends AppCompatActivity {
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                             Log.d(TAG, "Total steps: " + total);
                             //display counts on screen
-                            counter.setText(String.format(Locale.ENGLISH, "%d", total));
+//                            counter.setText(String.format(Locale.ENGLISH, "%d", total));
                         })
                 .addOnFailureListener(
                         e -> Log.w(TAG, "There was a problem getting the step count.", e));
+
+
     }
     private void readHistoricStepCount() {
         if (!hasFitPermission()) {
