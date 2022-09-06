@@ -129,16 +129,16 @@ public class MainActivity extends AppCompatActivity {
                 .readDailyTotal(DataType.AGGREGATE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
                         dataSet -> {
-                            long total =
+                            long steps =
                                     dataSet.isEmpty()
                                             ? 0
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-                            Log.d(TAG, "Total steps: " + total);
+                            Log.d(TAG, "Total steps: " + steps);
                             //display counts on screen
-//                            counter.setText(String.format(Locale.ENGLISH, "%d", total));
+//                            counter.setText(String.format(Locale.ENGLISH, "%d", steps));
                         })
                 .addOnFailureListener(
-                        e -> Log.w(TAG, "There was a problem getting the step count.", e));
+                        e -> Log.w(TAG, "Unable to count steps.", e));
 
 
     }
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnSuccessListener(
                         this::printData)
                 .addOnFailureListener(
-                        e -> Log.e(TAG, "There was a problem reading the historic data.", e));
+                        e -> Log.e(TAG, "Unable to count weekly steps data.", e));
     }
 
     public static DataReadRequest queryFitnessData() {
@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
     public void printData(DataReadResponse dataReadResult) {
         StringBuilder result = new StringBuilder();
         if (dataReadResult.getBuckets().size() > 0) {
-            Log.i(TAG, "Number of returned buckets of DataSets is: " + dataReadResult.getBuckets().size());
             for (Bucket bucket : dataReadResult.getBuckets()) {
                 List<DataSet> dataSets = bucket.getDataSets();
                 for (DataSet dataSet : dataSets) {
@@ -179,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else if (dataReadResult.getDataSets().size() > 0) {
-            Log.i(TAG, "Number of returned DataSets is: " + dataReadResult.getDataSets().size());
             for (DataSet dataSet : dataReadResult.getDataSets()) {
                 result.append(formatDataSet(dataSet));
             }
@@ -226,10 +224,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.action_read_data) {
             readStepCountDelta();
             return true;
