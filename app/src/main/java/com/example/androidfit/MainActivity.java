@@ -1,43 +1,38 @@
 package com.example.androidfit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.example.androidfit.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.Bucket;
-import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.data.*;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.material.snackbar.Snackbar;
-
 import net.danlew.android.joda.JodaTimeAndroid;
-
 import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView counter;
     private TextView weekCounter;
     private AppBarConfiguration appBarConfiguration;
-
+    private Context context;
     static DataSource ESTIMATED_STEP_DELTAS = new DataSource.Builder()
             .setDataType(DataType.TYPE_STEP_COUNT_DELTA)
             .setType(DataSource.TYPE_DERIVED)
@@ -96,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
     private FitnessOptions getFitnessSignInOptions() {
         return FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
                 .addDataType(DataType.AGGREGATE_DISTANCE_DELTA)
                 .build();
     }
@@ -134,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                             ? 0
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                             Log.d(TAG, "Total steps: " + steps);
-                            //display counts on screen
-//                            counter.setText(String.format(Locale.ENGLISH, "%d", steps));
+                            counter.setText(String.format(Locale.ENGLISH, "%d", steps));
                         })
                 .addOnFailureListener(
                         e -> Log.w(TAG, "Unable to count steps.", e));
@@ -214,7 +207,20 @@ public class MainActivity extends AppCompatActivity {
 
         return String.valueOf(result);
     }
+    public boolean isConnectedToNetwork() {
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+
+    }
+
+    public boolean isGPSon()
+    {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -229,6 +235,21 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_read_historic_data) {
             readHistoricStepCount();
+            return true;
+        }
+        else if (id == R.id.viewHospital) {
+            if (!isConnectedToNetwork()) {
+                Toast.makeText(context, "No internet access. Turn on mobile data or Wifi", Toast.LENGTH_LONG).show();
+            }
+            else if (! isGPSon())
+            {
+                Toast.makeText(context, "Turn on GPS", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Intent intent = new Intent(context, MapsActivity.class);
+                context.startActivity(intent);
+            }
+
             return true;
         }
 

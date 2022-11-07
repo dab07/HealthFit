@@ -4,16 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
 import com.example.androidfit.databinding.FragmentFirstBinding;
+import com.google.android.gms.common.api.GoogleApiClient;
 
-public class FirstFragment extends Fragment {
+public class FirstFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks {
 
     private FragmentFirstBinding binding;
+    private GoogleApiClient mClient = null;
+    private static boolean added;
 
     @Override
     public View onCreateView(
@@ -44,4 +46,13 @@ public class FirstFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
 }
