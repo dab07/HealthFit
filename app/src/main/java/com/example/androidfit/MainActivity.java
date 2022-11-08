@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private TextView counter;
     private TextView weekCounter;
+    private TextView calorie;
     private AppBarConfiguration appBarConfiguration;
     private Context context;
     static DataSource ESTIMATED_STEP_DELTAS = new DataSource.Builder()
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         counter = findViewById(R.id.counter);
         weekCounter = findViewById(R.id.week_counter);
+        calorie = findViewById(R.id.calorie);
 
         if (hasFitPermission()) {
             readStepCountDelta();
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                             : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                             Log.d(TAG, "Total steps: " + steps);
                             counter.setText(String.format(Locale.ENGLISH, "%d", steps));
+                            calorie.setText(String.format(Locale.ENGLISH, "%.3f", 0.035 * steps));
                         })
                 .addOnFailureListener(
                         e -> Log.w(TAG, "Unable to count steps.", e));
@@ -237,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             readHistoricStepCount();
             return true;
         }
-        else if (id == R.id.viewHospital) {
+        else if (id == R.id.view_hospital) {
             if (!isConnectedToNetwork()) {
                 Toast.makeText(context, "No internet access. Turn on mobile data or Wifi", Toast.LENGTH_LONG).show();
             }

@@ -12,6 +12,8 @@
     <string name="action_revoke">Revoke permissions</string>
     <string name="read_step_data">Read step data</string>
     <string name="read_historic_step_data">Read historic step data</string>
+    <string name="view_hospital">Nearby Hospitals</string>
     <string name="todo">TODO</string>
     <string name="intro_text" />
+    <string name="nearby_hospitals">Nearby Hospitals</string>
 </resources>

@@ -22,4 +22,8 @@
         android:title="@string/read_historic_step_data"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/action_view_hospital"
+          android:title="@string/nearby_hospitals"
+          android:orderInCategory="100"
+          app:showAsAction="never" />
 </menu>

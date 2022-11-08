@@ -66,18 +66,33 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="548dp"
-            android:layout_height="578dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="Record of last 7 days"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/counter" />
+                android:id="@+id/textView"
+                android:layout_width="548dp"
+                android:layout_height="121dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Record of last 7 days"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counter"/>
+        <TextView
+                android:layout_width="351dp"
+                android:layout_height="70dp"
+                android:text="Calorie Burned"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="50dp"></TextView>
+        <TextView
+                android:id="@+id/calorie"
+                android:layout_width="211dp"
+                android:layout_height="56dp"
+                android:textColor="@color/cardview_light_background"
+                android:text="0"
+                android:textSize="50sp"
+
+        />
 
     </com.google.android.material.appbar.AppBarLayout>
 

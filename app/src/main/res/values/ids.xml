@@ -2,4 +2,6 @@
 <resources>
     <item name="map" type="id"/>
     <item name="viewHospital" type="id"/>
+    <item name="calorie" type="id"/>
+    <item name="view_hospital" type="id"/>
 </resources>
