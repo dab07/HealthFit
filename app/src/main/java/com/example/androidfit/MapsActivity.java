@@ -49,8 +49,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int REQUEST_LOCATION_CODE = 99;
     int PROXIMITY_RADIUS = 10000;
     double latitude,longitude;
-    private final int LOCATION_MIN_DISTANCE = 20;
-    private final int LOCATION_MIN_TIME = 5000;
+//    private final int LOCATION_MIN_DISTANCE = 20;
+//    private final int LOCATION_MIN_TIME = 5000;
 
 
 
@@ -69,22 +69,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             checkLocationPermission();
         }
-
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapView =  mapFragment.getView();
         mapFragment.getMapAsync(this);
-
-
-
-
-//       locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
-//        initMap();
-//        getCurrentLocation();
     }
 
     @Override
@@ -125,13 +114,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
 
             View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-
-
-
             locationButton.callOnClick();
-
         }
-
 
     }
 
@@ -156,12 +140,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
 
-        //todo delete following lines
         Object[] dataTransfer = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         String url = getUrl(latitude, longitude, "hospital");
@@ -169,7 +152,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dataTransfer[1] = url;
         getNearbyPlacesData.execute(dataTransfer);
         Toast.makeText(MapsActivity.this, "Showing Nearby Hospitals", Toast.LENGTH_SHORT).show();
-        //todo end
 
         if(client != null)
         {
@@ -211,6 +193,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
 
     public boolean checkLocationPermission()
     {
@@ -232,25 +219,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return true;
     }
 
-
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    }
-
-
     public  boolean isConnectedToNetwork()
     {
-
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
-
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull @NotNull ConnectionResult connectionResult) {
+
+    }
 }
