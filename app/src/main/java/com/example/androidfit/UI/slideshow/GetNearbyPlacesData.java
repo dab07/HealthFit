@@ -1,14 +1,13 @@
-package com.example.androidfit.Map;
+package com.example.androidfit.UI.slideshow;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.CameraUpdateFactory;
-
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -55,8 +54,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
     private void showNearbyPlaces(List<HashMap<String, String>> nearbyPlaceList)
     {
-        //todo remove sout
-        System.out.println("IN show nearby places , listSize = "+nearbyPlaceList.size());
 
         for(int i = 0; i < nearbyPlaceList.size(); i++)
         {
@@ -64,9 +61,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             HashMap<String, String> googlePlace = nearbyPlaceList.get(i);
 
             String placeName = googlePlace.get("place_name");
-
-            //todo remove sout
-            System.out.println("place name = "+placeName);
 
             String vicinity = googlePlace.get("vicinity");
             double lat = Double.parseDouble( googlePlace.get("lat"));

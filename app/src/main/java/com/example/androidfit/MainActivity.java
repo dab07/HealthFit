@@ -177,21 +177,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void printData(DataReadResponse dataReadResult) {
-        StringBuilder result = new StringBuilder();
+        StringBuilder res = new StringBuilder();
         if (dataReadResult.getBuckets().size() > 0) {
             for (Bucket bucket : dataReadResult.getBuckets()) {
                 List<DataSet> dataSets = bucket.getDataSets();
                 for (DataSet dataSet : dataSets) {
-                    result.append(formatDataSet(dataSet));
+                    res.append(formatDataSet(dataSet));
                 }
             }
         } else if (dataReadResult.getDataSets().size() > 0) {
             for (DataSet dataSet : dataReadResult.getDataSets()) {
-                result.append(formatDataSet(dataSet));
+                res.append(formatDataSet(dataSet));
             }
         }
-        Log.d(TAG, "result: " + result);
-        weekCounter.setText(result);
+        Log.d(TAG, "result: " + res);
+        weekCounter.setText(res);
     }
     private static String formatDataSet(DataSet dataSet) {
         StringBuilder result = new StringBuilder();

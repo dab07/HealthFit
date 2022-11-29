@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="counter" type="id"/>
+    <item name="map" type="id" />
+    <item name="action_delete_data" type="id" />
+    <item name="action_update_data" type="id" />
 </resources>

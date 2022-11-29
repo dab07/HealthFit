@@ -1,6 +1,7 @@
-package com.example.androidfit.Map;
+package com.example.androidfit.UI.slideshow;
 
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,8 +9,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
 
 public class DataParser {
 
@@ -53,7 +52,7 @@ public class DataParser {
         return googlePlaceMap;
 
     }
-    private List<HashMap<String, String>>getPlaces(JSONArray jsonArray)
+    private List<HashMap<String, String>> getPlaces(JSONArray jsonArray)
     {
         HashMap<String, String> placeMap = null;
         List<HashMap<String, String>> placelist = new ArrayList<>();
@@ -89,3 +88,4 @@ public class DataParser {
         return getPlaces(jsonArray);
     }
 }
+
